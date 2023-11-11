@@ -41,6 +41,37 @@ def transpose_matrix(matrix):
 
     return transposed_matrix
 
+def matrix_multiply(matrix1, matrix2):
+    # Get the dimensions of the matrices
+    rows1, cols1 = len(matrix1), len(matrix1[0])
+    rows2, cols2 = len(matrix2), len(matrix2[0])
+
+    # Check if the matrices can be multiplied
+    if cols1 != rows2:
+        raise ValueError("Number of columns in the first matrix must be equal to the number of rows in the second matrix.")
+
+    # Initialize the result matrix with zeros
+    result_matrix = [[0] * cols2 for _ in range(rows1)]
+
+    # Perform matrix multiplication
+    for i in range(rows1):
+        for j in range(cols2):
+            for k in range(cols1):
+                result_matrix[i][j] += matrix1[i][k] * matrix2[k][j]
+
+    return result_matrix
+
+def multiply_matrix_by_scalar(matrix, scalar):
+    # Iterate through the matrix and multiply each element by the scalar
+    result_matrix = [[element * scalar for element in row] for row in matrix]
+    return result_matrix
+
+def sample_mean(matrix, scale_factor):
+    # Create a new matrix to store the scaled rows
+    scaled_matrix = [[element * scale_factor for element in row] for row in matrix]
+    return scaled_matrix
+
+
 print("Convers Mtrx of obsvsn to mean-deviation form")
 print("Given matrix A create M=(1/N)[X_1,X_2...X_N]")
 print("Input top row of matrix comma separated")
@@ -56,14 +87,17 @@ n = len(parent_ra[0])
 print("Size (n):",n)
 
 original_ra = two_d_deep_copy(parent_ra)
-print(parent_ra)
-print(original_ra)
-
+# print(parent_ra)
+# print(original_ra)
+sample_mean_ra = sample_mean(original_ra,n)
+print(sample_mean_ra)
 # iterate over each vector
 for count in range(0,n):
     parent_ra[0][count] = (1/n)*parent_ra[0][count]
     parent_ra[1][count] = (1/n)*parent_ra[1][count]
-print("Sample Mean Matrix: [top, bottom] respectively")
+print("Sample Mean Matrix: ")
+print(parent_ra)
+print("Sample Mean Matrix totalled: [top, bottom] respectively")
 sample_mean_mtrx = total_up_mean_matrix(parent_ra)
 print(sample_mean_mtrx)
 print("Press any key to proceed:")
@@ -79,3 +113,8 @@ print("Sample covariance matrix is S=(1/N-1)*B*B^Transpose")
 b_transpose = transpose_matrix(x_hat_ra)
 print("B^Transpose")
 print(b_transpose)
+print("B*B^Transpose is:")
+sample_cov_mtrx = matrix_multiply(x_hat_ra,b_transpose)
+print(sample_cov_mtrx)
+final_sample_cov_matrix = multiply_matrix_by_scalar(sample_cov_mtrx,1/(n-1))
+print(final_sample_cov_matrix)
