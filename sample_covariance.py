@@ -25,9 +25,22 @@ def total_up_mean_matrix(ra):
 def get_x_hat_array(ra,mean_vector):
     #iterate over vectors
     for i in range(0,len(ra[0])):
-        ra[0][i] = ra[0][i] - mean_vector[0]
-        ra[1][i] = ra[1][i] - mean_vector[1]
+        ra[0][i] = (ra[0][i] - mean_vector[0])
+        ra[1][i] = (ra[1][i] - mean_vector[1])
     return ra
+
+def transpose_matrix(matrix):
+
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    transposed_matrix = [[0] * rows for _ in range(cols)]
+    for i in range(rows):
+        for j in range(cols):
+            transposed_matrix[j][i] = matrix[i][j]
+
+    return transposed_matrix
+
 print("Convers Mtrx of obsvsn to mean-deviation form")
 print("Given matrix A create M=(1/N)[X_1,X_2...X_N]")
 print("Input top row of matrix comma separated")
@@ -59,4 +72,10 @@ print("Finding Xhat for each vector")
 
 x_hat_ra = two_d_deep_copy(parent_ra)
 x_hat_ra = get_x_hat_array(x_hat_ra,sample_mean_mtrx)
+print("B (matrix of Xhat vectors)")
 print(x_hat_ra)
+print("Sample covariance matrix is S=(1/N-1)*B*B^Transpose")
+
+b_transpose = transpose_matrix(x_hat_ra)
+print("B^Transpose")
+print(b_transpose)
