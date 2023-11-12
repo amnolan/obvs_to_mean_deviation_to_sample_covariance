@@ -66,39 +66,53 @@ def multiply_matrix_by_scalar(matrix, scalar):
     result_matrix = [[element * scalar for element in row] for row in matrix]
     return result_matrix
 
-def sample_mean(matrix, scale_factor):
-    # Create a new matrix to store the scaled rows
-    scaled_matrix = [[element * scale_factor for element in row] for row in matrix]
-    return scaled_matrix
+# def sample_mean(matrix, scale_factor):
+#     # Create a new matrix to store the scaled rows
+#     scaled_matrix = [[element * scale_factor for element in row] for row in matrix]
+#     return scaled_matrix
+def init_ra(n):
+    inner_output_top_ra = []
+    inner_output_bottom_ra = []
+    for i in range(0,n):
+        inner_output_top_ra = 0
+        inner_output_bottom_ra = 0
+    return [inner_output_top_ra,inner_output_bottom_ra]
 
+def sample_mean(matrix, n):
+    top = []
+    bottom = []
+    container = []
+    for count in range(0,n):
+        top.append((1/n)*parent_ra[0][count])
+        bottom.append((1/n)*parent_ra[1][count])
+    container.append(top)
+    container.append(bottom)
+    return container
 
 print("Convers Mtrx of obsvsn to mean-deviation form")
 print("Given matrix A create M=(1/N)[X_1,X_2...X_N]")
 print("Input top row of matrix comma separated")
-top_row = convert_to_float((input()).split(","))
+# top_row = convert_to_float((input()).split(","))
 print("Input bottom row of matrix comma separated")
-bottom_row = convert_to_float((input()).split(","))
+
+# bottom_row = convert_to_float((input()).split(","))
+top_row = [14,6,9,16,6,19]
+bottom_row = [3,15,8,7,6,5]
 parent_ra = []
-copy_parent_ra = []
 parent_ra.append(top_row)
 parent_ra.append(bottom_row)
 
 n = len(parent_ra[0])
 print("Size (n):",n)
 
+#save the original state
 original_ra = two_d_deep_copy(parent_ra)
-# print(parent_ra)
-# print(original_ra)
-sample_mean_ra = sample_mean(original_ra,n)
-print(sample_mean_ra)
-# iterate over each vector
-for count in range(0,n):
-    parent_ra[0][count] = (1/n)*parent_ra[0][count]
-    parent_ra[1][count] = (1/n)*parent_ra[1][count]
+
+sample_mean_ra = sample_mean(two_d_deep_copy(parent_ra), n)
 print("Sample Mean Matrix: ")
-print(parent_ra)
+print(sample_mean_ra)
 print("Sample Mean Matrix totalled: [top, bottom] respectively")
-sample_mean_mtrx = total_up_mean_matrix(parent_ra)
+sample_mean_mtrx = total_up_mean_matrix(sample_mean_ra)
 print(sample_mean_mtrx)
 print("Press any key to proceed:")
 input()
