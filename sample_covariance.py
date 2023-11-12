@@ -66,18 +66,6 @@ def multiply_matrix_by_scalar(matrix, scalar):
     result_matrix = [[element * scalar for element in row] for row in matrix]
     return result_matrix
 
-# def sample_mean(matrix, scale_factor):
-#     # Create a new matrix to store the scaled rows
-#     scaled_matrix = [[element * scale_factor for element in row] for row in matrix]
-#     return scaled_matrix
-def init_ra(n):
-    inner_output_top_ra = []
-    inner_output_bottom_ra = []
-    for i in range(0,n):
-        inner_output_top_ra = 0
-        inner_output_bottom_ra = 0
-    return [inner_output_top_ra,inner_output_bottom_ra]
-
 def sample_mean(matrix, n):
     top = []
     bottom = []
@@ -92,12 +80,12 @@ def sample_mean(matrix, n):
 print("Convers Mtrx of obsvsn to mean-deviation form")
 print("Given matrix A create M=(1/N)[X_1,X_2...X_N]")
 print("Input top row of matrix comma separated")
-# top_row = convert_to_float((input()).split(","))
+top_row = convert_to_float((input()).split(","))
 print("Input bottom row of matrix comma separated")
 
-# bottom_row = convert_to_float((input()).split(","))
-top_row = [14,6,9,16,6,19]
-bottom_row = [3,15,8,7,6,5]
+bottom_row = convert_to_float((input()).split(","))
+# top_row = [14,6,9,16,6,19]
+# bottom_row = [3,15,8,7,6,5]
 parent_ra = []
 parent_ra.append(top_row)
 parent_ra.append(bottom_row)
@@ -120,15 +108,20 @@ print("Finding Xhat for each vector")
 
 x_hat_ra = two_d_deep_copy(parent_ra)
 x_hat_ra = get_x_hat_array(x_hat_ra,sample_mean_mtrx)
-print("B (matrix of Xhat vectors)")
+print("B (matrix of Xhat vectors)\n")
 print(x_hat_ra)
+print("Press any key to proceed")
+input()
 print("Sample covariance matrix is S=(1/N-1)*B*B^Transpose")
-
 b_transpose = transpose_matrix(x_hat_ra)
 print("B^Transpose")
 print(b_transpose)
+print("Press any key to proceed")
+input()
 print("B*B^Transpose is:")
 sample_cov_mtrx = matrix_multiply(x_hat_ra,b_transpose)
 print(sample_cov_mtrx)
+print("Press any key to proceed")
+input()
 final_sample_cov_matrix = multiply_matrix_by_scalar(sample_cov_mtrx,1/(n-1))
 print(final_sample_cov_matrix)
